@@ -1,0 +1,39 @@
+{
+  "entities": {
+    "session": {
+      "title": "Game Session",
+      "description": "Stores the current state of a party game session.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "players": {
+          "type": "array",
+          "items": { "$ref": "player" }
+        },
+        "activeGameId": { "type": "string" },
+        "spiceLevel": { "type": "string", "enum": ["family", "friends", "savage"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "status": { "type": "string", "enum": ["setup", "playing", "finished"] }
+      },
+      "required": ["id", "players", "activeGameId", "status"]
+    },
+    "player": {
+      "title": "Player",
+      "description": "Information about a player in a session.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "color": { "type": "string" },
+        "score": { "type": "integer" }
+      },
+      "required": ["id", "name", "color"]
+    }
+  },
+  "firestore": {
+    "sessions/{sessionId}": {
+      "schema": "session",
+      "description": "Root collection for all game sessions."
+    }
+  }
+}

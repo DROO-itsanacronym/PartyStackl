@@ -1,0 +1,36 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isValidPlayer(player) {
+      return player.id is string && player.name is string && player.name.size() <= 20 && player.color.size() <= 7;
+    }
+
+    function isValidSession(session) {
+      return session.id is string && 
+             session.players is list &&
+             session.players.size() <= 10 &&
+             session.status in ['setup', 'playing', 'recap'] &&
+             session.spiceLevel in ['family', 'friends', 'savage'];
+    }
+
+    match /sessions/{sessionId} {
+      allow read: if true; // Everyone can join a session by ID
+      allow create: if isValidSession(request.resource.data);
+      allow update: if isValidSession(request.resource.data);
+      allow delete: if false; // Prevention of accidental deletion
+    }
+  }
+}

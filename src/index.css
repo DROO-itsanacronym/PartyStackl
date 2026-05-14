@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Bungee&family=Press+Start+2P&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Bungee", system-ui, sans-serif;
+  --font-arcade: "Press Start 2P", system-ui, sans-serif;
+  
+  --color-party-black: #111111;
+  --color-party-white: #FFFFFF;
+  --color-party-offwhite: #F8F9FA;
+  --color-party-yellow: #FFD400;
+  --color-party-pink: #FF4FA3;
+  --color-party-purple: #9B5CFF;
+  --color-party-cyan: #00D9FF;
+  --color-party-orange: #FF6B35;
+  --color-party-green: #5EE87A;
+}
+
+@layer base {
+  body {
+    @apply bg-party-offwhite text-party-black antialiased font-sans;
+  }
+}
+
+.spring-bounce {
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.spring-bounce:active {
+  transform: scale(0.93);
+}
